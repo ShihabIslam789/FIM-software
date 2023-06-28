@@ -1,4 +1,4 @@
-﻿Function Calculate-File-Hash($filepath) {
+Function Calculate-File-Hash($filepath) {
     $filehash = Get-FileHash -Path $filepath -Algorithm SHA512
     return $filehash
 }
@@ -49,3 +49,26 @@ elseif ($response -eq "B".ToUpper()) {
         Start-Sleep -Seconds 1
         
         $files = Get-ChildItem -Path .\Files
+
+         # For each file, calculate the hash, and write to baseline.txt
+         foreach ($f in $files) {
+            $hash = Calculate-File-Hash $f.FullName
+            #"$($hash.Path)|$($hash.Hash)" | Out-File -FilePath .\baseline.txt -Append
+
+            # Notify if a new file has been created
+            if ($fileHashDictionary[$hash.Path] -eq $null) {
+                # A new file has been created!
+                Write-Host "$($hash.Path) has been created!" -ForegroundColor Green
+            }
+            else {
+
+               # Notify if a new file has been changed
+               if ($fileHashDictionary[$hash.Path] -eq $hash.Hash) {
+                   # The file has not changed
+               }
+               else {
+                   # File file has been compromised!, notify the user
+                   Write-Host "$($hash.Path) has changed!!!" -ForegroundColor Yellow
+               }
+           }
+       }
