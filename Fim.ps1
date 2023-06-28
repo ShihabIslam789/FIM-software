@@ -19,3 +19,20 @@ $response = Read-Host -Prompt "Please enter 'A' or 'B' "
     $hash = Calculate-File-Hash $f.FullName
     "$($hash.Path)|$($hash.Hash)" | Out-File -FilePath .\baseline.txt -Append
 }
+
+elseif ($response -eq "B".ToUpper()) {
+    
+    $fileHashDictionary = @{}
+
+    # Load file|hash from baseline.txt and store them in a dictionary
+    $filePathsAndHashes = Get-Content -Path .\baseline.txt
+    
+    foreach ($f in $filePathsAndHashes) {
+         $fileHashDictionary.add($f.Split("|")[0],$f.Split("|")[1])
+    }
+
+     # Begin (continuously) monitoring files with saved Baseline
+     while ($true) {
+        Start-Sleep -Seconds 1
+        
+        $files = Get-ChildItem -Path .\Files
