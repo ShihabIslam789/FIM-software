@@ -1,3 +1,16 @@
+﻿Function Calculate-File-Hash($filepath) {
+    $filehash = Get-FileHash -Path $filepath -Algorithm SHA512
+    return $filehash
+}
+Function Erase-Baseline-If-Already-Exists() {
+   $baselineExists = Test-Path -Path .\baseline.txt
+
+   if ($baselineExists) {
+       # Delete it
+       Remove-Item -Path .\baseline.txt
+   }
+}
+
 
 Write-Host ""
 Write-Host "what would you like to do?"
