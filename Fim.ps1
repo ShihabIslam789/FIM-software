@@ -72,3 +72,13 @@ elseif ($response -eq "B".ToUpper()) {
                }
            }
        }
+
+       foreach ($key in $fileHashDictionary.Keys) {
+         $baselineFileStillExists = Test-Path -Path $key
+         if (-Not $baselineFileStillExists) {
+             # One of the baseline files must have been deleted, notify the user
+             Write-Host "$($key) has been deleted!" -ForegroundColor DarkRed -BackgroundColor Gray
+         }
+     }
+ }
+}
