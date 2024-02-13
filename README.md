@@ -4,3 +4,6 @@ This simple script is suppose to  keep track of any attempts to change the file.
 ## Graph
 
 ![picture](https://github.com/ShihabIslam789/FIM-software/blob/main/Pictures/Chart.png)
+
+
+the chart above explains how we want the script to work. we start by building a abseline we can compare to that files should look like. then we moniter the files through a constant loop to moniter. If there is any differnce by the SHA hash that is unique to the baseline the suer would be notified.  
